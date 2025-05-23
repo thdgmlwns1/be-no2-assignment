@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.planner.dto.request.ScheduleRequestDto;
 import org.example.planner.entitiy.Schedule;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -68,5 +69,25 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
                 )
         );
     }
+
+    @Override
+    public Schedule findScheduleById(Long id) {
+        List<Schedule> result= jdbcTemplate.query("SELECT * FROM schedule WHERE id=?", scheduleRowMapper(),id);
+        return result.stream().findAny().orElse(null);
+    }
+
+
+    private RowMapper<Schedule> scheduleRowMapper() {
+        return (rs, rowNum) -> new Schedule(
+                rs.getLong("id"),
+                rs.getString("author"),
+                rs.getString("password"),
+                rs.getString("task"),
+                rs.getTimestamp("created_at").toLocalDateTime(),
+                rs.getTimestamp("updated_at").toLocalDateTime()
+        );
+    }
+
+
 
 }

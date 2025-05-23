@@ -29,4 +29,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleList.stream().map(ScheduleResponseDto::new).toList();
     }
 
+    @Override
+    public ScheduleResponseDto findScheduleById(Long id) {
+        Schedule schedule = scheduleRepository.findScheduleById(id);
+        return new ScheduleResponseDto(schedule);
+    }
+
+
 }

@@ -9,5 +9,6 @@ import java.util.List;
 public interface ScheduleRepository {
     Schedule saveSchedule(Schedule schedule);
     List<Schedule> findSchedules(String updatedAt, String author);
+    Schedule findScheduleById(Long id);
 
 }
