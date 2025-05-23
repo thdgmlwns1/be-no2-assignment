@@ -7,6 +7,8 @@ import org.example.planner.entitiy.Schedule;
 import org.example.planner.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ScheduleServiceImpl implements ScheduleService {
@@ -19,6 +21,12 @@ public class ScheduleServiceImpl implements ScheduleService {
         return new ScheduleResponseDto(savedSchedule);
 
 
+    }
+
+    @Override
+    public List<ScheduleResponseDto> findSchedules(String updatedAt, String author) {
+        List<Schedule> scheduleList = scheduleRepository.findSchedules(updatedAt, author);
+        return scheduleList.stream().map(ScheduleResponseDto::new).toList();
     }
 
 }

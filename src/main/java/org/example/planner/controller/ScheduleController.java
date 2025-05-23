@@ -6,10 +6,9 @@ import org.example.planner.service.ScheduleService;
 import org.example.planner.service.ScheduleServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/schedules")
@@ -26,6 +25,15 @@ public class ScheduleController {
     public ResponseEntity<ScheduleResponseDto> createMemo(@RequestBody ScheduleRequestDto requestDto) {
 
         return new ResponseEntity<>(scheduleService.saveSchedule(requestDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ScheduleResponseDto>> getSchedules(
+            @RequestParam(required = false) String updatedAt,
+            @RequestParam(required = false) String author) {
+
+        List<ScheduleResponseDto> schedules = scheduleService.findSchedules(updatedAt, author);
+        return ResponseEntity.ok(schedules);
     }
 
 

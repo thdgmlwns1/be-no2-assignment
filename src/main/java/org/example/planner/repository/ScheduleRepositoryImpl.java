@@ -8,8 +8,11 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -36,4 +39,34 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
         return new Schedule(id.longValue(),schedule.getAuthor(),schedule.getPassword(),schedule.getTask(),localDateTime,localDateTime);
     }
+
+    @Override
+    public List<Schedule> findSchedules(String updatedAt, String author) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM schedule WHERE 1=1");
+        List<Object> params = new ArrayList<>();
+
+        if (updatedAt != null && !updatedAt.isEmpty()) {
+            sql.append(" AND DATE(updated_at) = ?");
+            params.add(LocalDate.parse(updatedAt));
+        }
+
+        if (author != null && !author.isEmpty()) {
+            sql.append(" AND author = ?");
+            params.add(author);
+        }
+
+        sql.append(" ORDER BY updated_at DESC");
+
+        return jdbcTemplate.query(sql.toString(), params.toArray(), (rs, rowNum) ->
+                new Schedule(
+                        rs.getLong("id"),
+                        rs.getString("author"),
+                        rs.getString("password"),
+                        rs.getString("task"),
+                        rs.getTimestamp("created_at").toLocalDateTime(),
+                        rs.getTimestamp("updated_at").toLocalDateTime()
+                )
+        );
+    }
+
 }
