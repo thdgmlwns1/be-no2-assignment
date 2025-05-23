@@ -3,6 +3,7 @@ package org.example.planner.entitiy;
 import com.sun.jdi.LongType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.logging.log4j.message.LoggerNameAwareMessage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,4 +17,11 @@ public class Schedule2 {
     private String task;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+
+    public Schedule2(Long authorId, String password, String task) {
+        this.authorId = authorId;
+        this.password = password;
+        this.task = task;
+    }
 }

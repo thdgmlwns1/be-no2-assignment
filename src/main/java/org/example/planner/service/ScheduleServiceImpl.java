@@ -1,9 +1,12 @@
 package org.example.planner.service;
 
 import lombok.RequiredArgsConstructor;
+import org.example.planner.dto.request.Schedule2RequestDto;
 import org.example.planner.dto.request.ScheduleRequestDto;
+import org.example.planner.dto.response.Schedule2ResponseDto;
 import org.example.planner.dto.response.ScheduleResponseDto;
 import org.example.planner.entitiy.Schedule;
+import org.example.planner.entitiy.Schedule2;
 import org.example.planner.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +76,23 @@ public class ScheduleServiceImpl implements ScheduleService {
             throw new IllegalStateException("삭제 실패: 이미 삭제되었거나 존재하지 않습니다.");
         }
     }
+
+
+
+    /// /////////////////////Lv3///////////////////////////
+    @Override
+    public Schedule2ResponseDto saveSchedule2(Schedule2RequestDto scheduleRequestDto) {
+        Schedule2 schedule = new Schedule2(scheduleRequestDto.getAuthorId(),scheduleRequestDto.getPassword(),scheduleRequestDto.getTask());
+        Schedule2 savedSchedule = scheduleRepository.saveSchedule2(schedule);
+        return new Schedule2ResponseDto(savedSchedule);
+    }
+
+    @Override
+    public List<Schedule2> getSchedulesByAuthorId(Long authorId) {
+        return scheduleRepository.findByAuthorId(authorId);
+    }
+
+
 
 
 }

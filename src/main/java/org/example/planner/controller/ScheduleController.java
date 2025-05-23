@@ -1,7 +1,10 @@
 package org.example.planner.controller;
 
+import org.example.planner.dto.request.Schedule2RequestDto;
 import org.example.planner.dto.request.ScheduleRequestDto;
+import org.example.planner.dto.response.Schedule2ResponseDto;
 import org.example.planner.dto.response.ScheduleResponseDto;
+import org.example.planner.entitiy.Schedule2;
 import org.example.planner.service.ScheduleService;
 import org.example.planner.service.ScheduleServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -22,7 +25,7 @@ public class ScheduleController {
 
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> createMemo(@RequestBody ScheduleRequestDto requestDto) {
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto requestDto) {
 
         return new ResponseEntity<>(scheduleService.saveSchedule(requestDto), HttpStatus.CREATED);
     }
@@ -59,6 +62,16 @@ public class ScheduleController {
 
     /// ////////////////Lv3//////////////////////////////////
 
+    @PostMapping("/lv3")
+    public ResponseEntity<Schedule2ResponseDto> createSchedule2(@RequestBody Schedule2RequestDto requestDto) {
+
+        return new ResponseEntity<>(scheduleService.saveSchedule2(requestDto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/lv3/{authorId}")
+    public ResponseEntity<List<Schedule2>> getSchedulesByAuthor(@PathVariable Long authorId) {
+        return ResponseEntity.ok(scheduleService.getSchedulesByAuthorId(authorId));
+    }
 
 
 }

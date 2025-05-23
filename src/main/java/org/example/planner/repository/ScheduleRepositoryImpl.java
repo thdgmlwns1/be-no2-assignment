@@ -3,6 +3,7 @@ package org.example.planner.repository;
 import lombok.RequiredArgsConstructor;
 import org.example.planner.dto.request.ScheduleRequestDto;
 import org.example.planner.entitiy.Schedule;
+import org.example.planner.entitiy.Schedule2;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -99,6 +100,45 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         );
     }
 
+    /// ////////////LV3////////////////////////////
+
+
+    @Override
+    public Schedule2 saveSchedule2(Schedule2 schedule) {
+        SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
+        jdbcInsert.withTableName("schedule2").usingGeneratedKeyColumns("id");
+        Map<String, Object> parmeters = new HashMap<>();
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+        parmeters.put("authorId", schedule.getAuthorId());
+        parmeters.put("password",schedule.getPassword());
+        parmeters.put("task", schedule.getTask());
+        parmeters.put("createdAt", localDateTime);
+        parmeters.put("updatedAt", localDateTime);
+
+        Number id = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parmeters));
+
+        return new Schedule2(id.longValue(),schedule.getAuthorId(),schedule.getPassword(),schedule.getTask(),localDateTime,localDateTime);
+    }
+
+    @Override
+    public List<Schedule2> findByAuthorId(Long authorId) {
+        String sql = """
+        SELECT id, authorId, password, task, createdAt, updatedAt
+        FROM schedule2
+        WHERE authorId = ?
+        ORDER BY id
+    """;
+
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Schedule2(
+                rs.getLong("id"),
+                rs.getLong("authorId"),
+                rs.getString("password"),
+                rs.getString("task"),
+                rs.getTimestamp("createdAt").toLocalDateTime(),
+                rs.getTimestamp("updatedAt").toLocalDateTime()
+        ), authorId);
+    }
 
 
 }
