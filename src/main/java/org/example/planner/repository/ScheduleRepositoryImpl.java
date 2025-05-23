@@ -31,8 +31,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
 
         LocalDateTime localDateTime = LocalDateTime.now();
         parmeters.put("author", schedule.getAuthor());
-        parmeters.put("task", schedule.getTask());
         parmeters.put("password",schedule.getPassword());
+        parmeters.put("task", schedule.getTask());
         parmeters.put("createdAt", localDateTime);
         parmeters.put("updatedAt", localDateTime);
 
@@ -74,6 +74,12 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     public Schedule findScheduleById(Long id) {
         List<Schedule> result= jdbcTemplate.query("SELECT * FROM schedule WHERE id=?", scheduleRowMapper(),id);
         return result.stream().findAny().orElse(null);
+    }
+
+    @Override
+    public int updateSchedule(Long id, String author, String task, LocalDateTime updatedAt) {
+        return jdbcTemplate.update("UPDATE schedule SET author = ?, task = ?, updated_at = ? WHERE id = ?",
+                author, task, updatedAt, id);
     }
 
 

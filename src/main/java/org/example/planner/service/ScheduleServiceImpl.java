@@ -7,6 +7,7 @@ import org.example.planner.entitiy.Schedule;
 import org.example.planner.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,7 +17,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public ScheduleResponseDto saveSchedule(ScheduleRequestDto scheduleRequestDto) {
-        Schedule schedule = new Schedule(scheduleRequestDto.getAuthor(),scheduleRequestDto.getTask(),scheduleRequestDto.getPassword());
+        Schedule schedule = new Schedule(scheduleRequestDto.getAuthor(),scheduleRequestDto.getPassword(),scheduleRequestDto.getTask());
         Schedule savedSchedule = scheduleRepository.saveSchedule(schedule);
         return new ScheduleResponseDto(savedSchedule);
 
@@ -33,6 +34,29 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ScheduleResponseDto findScheduleById(Long id) {
         Schedule schedule = scheduleRepository.findScheduleById(id);
         return new ScheduleResponseDto(schedule);
+    }
+
+    @Override
+    public ScheduleResponseDto updateSchedule(Long id, ScheduleRequestDto scheduleRequestDto) {
+        Schedule schedule = scheduleRepository.findScheduleById(id);
+
+
+        if (!schedule.getPassword().equals(scheduleRequestDto.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        int updatedRows = scheduleRepository.updateSchedule(id, scheduleRequestDto.getAuthor(),scheduleRequestDto.getTask(), now);
+
+        if (updatedRows == 0) {
+            throw new IllegalStateException("일정 수정에 실패했습니다.");
+        }
+
+        Schedule updatedschedule = scheduleRepository.findScheduleById(id);
+        return new ScheduleResponseDto(updatedschedule);
+
+
+
     }
 
 
