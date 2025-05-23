@@ -60,4 +60,19 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
 
+    @Override
+    public void deleteSchedule(Long id, String password) {
+        Schedule schedule = scheduleRepository.findScheduleById(id);
+
+        if (!schedule.getPassword().equals(password)) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        int deleted = scheduleRepository.deleteSchedule(id);
+        if (deleted == 0) {
+            throw new IllegalStateException("삭제 실패: 이미 삭제되었거나 존재하지 않습니다.");
+        }
+    }
+
+
 }
