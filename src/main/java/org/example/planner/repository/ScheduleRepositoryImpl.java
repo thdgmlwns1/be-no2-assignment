@@ -50,6 +50,8 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         StringBuilder sql = new StringBuilder("SELECT * FROM schedule WHERE 1=1");
         List<Object> params = new ArrayList<>();
 
+
+
         if (updatedAt != null && !updatedAt.isEmpty()) {
             sql.append(" AND DATE(updated_at) = ?");
             params.add(LocalDate.parse(updatedAt));

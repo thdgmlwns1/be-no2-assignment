@@ -22,8 +22,8 @@ CREATE TABLE author (
 CREATE TABLE schedule2 (
                            id BIGINT AUTO_INCREMENT PRIMARY KEY,
                            authorId BIGINT,
-                           password VARCHAR(100),
-                           task VARCHAR(255) ,
+                           password VARCHAR(255),
+                           task VARCHAR(255),
                            createdAt DATETIME,
                            updatedAt DATETIME,
                            FOREIGN KEY (authorId) REFERENCES author(id)
