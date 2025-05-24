@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.example.planner.dto.request.Schedule2RequestDto;
 import org.example.planner.dto.request.ScheduleRequestDto;
 import org.example.planner.dto.response.Schedule2ResponseDto;
+import org.example.planner.dto.response.Schedule2WithAuthorDto;
 import org.example.planner.dto.response.ScheduleResponseDto;
 import org.example.planner.entitiy.Schedule2;
 import org.example.planner.service.ScheduleService;
@@ -72,6 +73,15 @@ public class ScheduleController {
     @GetMapping("/lv3/{authorId}")
     public ResponseEntity<List<Schedule2>> getSchedulesByAuthor(@PathVariable Long authorId) {
         return ResponseEntity.ok(scheduleService.getSchedulesByAuthorId(authorId));
+    }
+    /// ////////////////////Lv. 4 //////////////////////////////
+    @GetMapping("/paging")
+    public ResponseEntity<List<Schedule2WithAuthorDto>> getPagedSchedules(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        List<Schedule2WithAuthorDto> result = scheduleService.getPagedSchedulesWithAuthor(page, size);
+        return ResponseEntity.ok(result);  // ✅ 항상 200 OK + [] 또는 [데이터]
     }
 
 

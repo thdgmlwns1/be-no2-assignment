@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.planner.dto.request.Schedule2RequestDto;
 import org.example.planner.dto.request.ScheduleRequestDto;
 import org.example.planner.dto.response.Schedule2ResponseDto;
+import org.example.planner.dto.response.Schedule2WithAuthorDto;
 import org.example.planner.dto.response.ScheduleResponseDto;
 import org.example.planner.entitiy.Schedule;
 import org.example.planner.entitiy.Schedule2;
@@ -106,6 +107,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     public List<Schedule2> getSchedulesByAuthorId(Long authorId) {
         return scheduleRepository.findByAuthorId(authorId);
     }
+
+    /// ////////////////////Lv. 4 /////////////////////
+    public List<Schedule2WithAuthorDto> getPagedSchedulesWithAuthor(int page, int size) {
+        int offset = page * size;
+        return scheduleRepository.findPagedSchedule2WithAuthor(offset, size);
+    }
+
 
 
 

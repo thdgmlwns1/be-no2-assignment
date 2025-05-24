@@ -2,6 +2,7 @@ package org.example.planner.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.example.planner.dto.request.ScheduleRequestDto;
+import org.example.planner.dto.response.Schedule2WithAuthorDto;
 import org.example.planner.entitiy.Schedule;
 import org.example.planner.entitiy.Schedule2;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,6 +11,8 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -139,6 +142,41 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
                 rs.getTimestamp("updatedAt").toLocalDateTime()
         ), authorId);
     }
+
+/// ////////////////////////////Lv4/////////////////////////////////////////////////////
+
+@Override
+public List<Schedule2WithAuthorDto> findPagedSchedule2WithAuthor(int offset, int size) {
+    String sql = """
+        SELECT 
+            s.id,
+            s.authorId,
+            a.name AS authorName,
+            s.task,
+            s.createdAt,
+            s.updatedAt
+        FROM schedule2 s
+        JOIN author a ON s.authorId = a.id
+        ORDER BY s.createdAt DESC
+        LIMIT ? OFFSET ?
+    """;
+
+    return jdbcTemplate.query(sql, new Object[]{size, offset}, (rs, rowNum) ->
+            new Schedule2WithAuthorDto(
+                    rs.getLong("id"),
+                    rs.getLong("authorId"),
+                    rs.getString("authorName"),
+                    rs.getString("task"),
+                    rs.getTimestamp("createdAt").toLocalDateTime(),
+                    rs.getTimestamp("updatedAt").toLocalDateTime()
+            )
+    );
+}
+
+
+
+
+
 
 
 }
