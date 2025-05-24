@@ -18,7 +18,7 @@ public interface ScheduleService {
 
     /// /////////Lv3//////////////////////////////
     Schedule2ResponseDto saveSchedule2(Schedule2RequestDto scheduleRequestDto);
-    List<Schedule2> getSchedulesByAuthorId(Long authorId);
+    List<Schedule2ResponseDto> getSchedulesByAuthorId(Long authorId);
 
     /// /////////////////Lv. 4////////////////////////////
     List<Schedule2WithAuthorDto> getPagedSchedulesWithAuthor(int page, int size);

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -104,8 +105,12 @@ public class ScheduleServiceImpl implements ScheduleService {
     }
 
     @Override
-    public List<Schedule2> getSchedulesByAuthorId(Long authorId) {
-        return scheduleRepository.findByAuthorId(authorId);
+    public List<Schedule2ResponseDto> getSchedulesByAuthorId(Long authorId) {
+        List<Schedule2> schedules = scheduleRepository.findByAuthorId(authorId);
+
+        return schedules.stream()
+                .map(schedule -> new Schedule2ResponseDto(schedule))
+                .collect(Collectors.toList());
     }
 
     /// ////////////////////Lv. 4 /////////////////////

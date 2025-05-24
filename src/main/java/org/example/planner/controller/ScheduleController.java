@@ -72,7 +72,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/lv3/{authorId}")
-    public ResponseEntity<List<Schedule2>> getSchedulesByAuthor(@PathVariable Long authorId) {
+    public ResponseEntity<List<Schedule2ResponseDto>> getSchedulesByAuthor(@PathVariable Long authorId) {
         return ResponseEntity.ok(scheduleService.getSchedulesByAuthorId(authorId));
     }
     /// ////////////////////Lv. 4 //////////////////////////////
