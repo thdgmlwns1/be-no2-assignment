@@ -1,6 +1,8 @@
 package org.example.planner.entitiy;
 
 import com.sun.jdi.LongType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.logging.log4j.message.LoggerNameAwareMessage;

@@ -1,5 +1,6 @@
 package org.example.planner.controller;
 
+import jakarta.validation.Valid;
 import org.example.planner.dto.request.Schedule2RequestDto;
 import org.example.planner.dto.request.ScheduleRequestDto;
 import org.example.planner.dto.response.Schedule2ResponseDto;
@@ -25,7 +26,7 @@ public class ScheduleController {
 
 
     @PostMapping
-    public ResponseEntity<ScheduleResponseDto> createSchedule(@RequestBody ScheduleRequestDto requestDto) {
+    public ResponseEntity<ScheduleResponseDto> createSchedule(@Valid @RequestBody ScheduleRequestDto requestDto) {
 
         return new ResponseEntity<>(scheduleService.saveSchedule(requestDto), HttpStatus.CREATED);
     }
@@ -63,7 +64,7 @@ public class ScheduleController {
     /// ////////////////Lv3//////////////////////////////////
 
     @PostMapping("/lv3")
-    public ResponseEntity<Schedule2ResponseDto> createSchedule2(@RequestBody Schedule2RequestDto requestDto) {
+    public ResponseEntity<Schedule2ResponseDto> createSchedule2(@Valid@RequestBody Schedule2RequestDto requestDto) {
 
         return new ResponseEntity<>(scheduleService.saveSchedule2(requestDto), HttpStatus.CREATED);
     }

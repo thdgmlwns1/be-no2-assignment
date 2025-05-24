@@ -1,6 +1,7 @@
 package org.example.planner.controller;
 
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.example.planner.dto.request.AuthorRequestDto;
 import org.example.planner.dto.response.AuthorResponseDto;
@@ -21,7 +22,7 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @PostMapping
-    public ResponseEntity<AuthorResponseDto> saveAuthor(@RequestBody AuthorRequestDto dto) {
+    public ResponseEntity<AuthorResponseDto> saveAuthor(@Valid @RequestBody AuthorRequestDto dto) {
         AuthorResponseDto savedAuthor = authorService.saveAuthor(dto);
         return new ResponseEntity<>(savedAuthor, HttpStatus.CREATED);
     }

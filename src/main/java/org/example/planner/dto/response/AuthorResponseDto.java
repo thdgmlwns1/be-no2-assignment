@@ -1,5 +1,6 @@
 package org.example.planner.dto.response;
 
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import org.example.planner.entitiy.Author;
 
