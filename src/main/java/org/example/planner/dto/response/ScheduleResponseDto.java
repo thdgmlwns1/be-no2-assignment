@@ -14,7 +14,7 @@ public class ScheduleResponseDto {
 
     private Long    id;
     private String author;
-    private String password;
+//    private String password;
     private String task;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -22,7 +22,7 @@ public class ScheduleResponseDto {
     public ScheduleResponseDto(Schedule schedule) {
         this.id = schedule.getId();
         this.author = schedule.getAuthor();
-        this.password = schedule.getPassword();
+//        this.password = schedule.getPassword();
         this.task = schedule.getTask();
         this.createdAt = schedule.getCreatedAt();
         this.updatedAt = schedule.getUpdatedAt();
