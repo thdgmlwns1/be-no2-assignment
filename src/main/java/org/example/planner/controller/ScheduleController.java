@@ -1,6 +1,7 @@
 package org.example.planner.controller;
 
 import jakarta.validation.Valid;
+import org.example.planner.dto.request.DeleteScheduleRequestDto;
 import org.example.planner.dto.request.Schedule2RequestDto;
 import org.example.planner.dto.request.ScheduleRequestDto;
 import org.example.planner.dto.response.Schedule2ResponseDto;
@@ -56,7 +57,7 @@ public class ScheduleController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteSchedule(
             @PathVariable Long id,
-            @RequestBody ScheduleRequestDto requestDto) {
+            @Valid@RequestBody DeleteScheduleRequestDto requestDto) {
 
         scheduleService.deleteSchedule(id, requestDto.getPassword());
         return new ResponseEntity<>(HttpStatus.OK);
