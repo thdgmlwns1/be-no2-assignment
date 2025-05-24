@@ -7,6 +7,8 @@ import org.example.planner.dto.response.Schedule2ResponseDto;
 import org.example.planner.dto.response.ScheduleResponseDto;
 import org.example.planner.entitiy.Schedule;
 import org.example.planner.entitiy.Schedule2;
+import org.example.planner.exeption.InvalidPasswordException;
+import org.example.planner.exeption.ScheduleNotFoundException;
 import org.example.planner.repository.ScheduleRepository;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +38,9 @@ public class ScheduleServiceImpl implements ScheduleService {
     @Override
     public ScheduleResponseDto findScheduleById(Long id) {
         Schedule schedule = scheduleRepository.findScheduleById(id);
+        if (schedule == null) {
+            throw new ScheduleNotFoundException("선택한 일정을 찾을 수 없습니다.");
+        }
         return new ScheduleResponseDto(schedule);
     }
 
@@ -44,8 +49,13 @@ public class ScheduleServiceImpl implements ScheduleService {
         Schedule schedule = scheduleRepository.findScheduleById(id);
 
 
+        if (schedule == null) {
+            throw new ScheduleNotFoundException("삭제할 일정이 존재하지 않습니다.");
+        }
+
+
         if (!schedule.getPassword().equals(scheduleRequestDto.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new InvalidPasswordException("비밀번호가 일치하지 않습니다.");
         }
 
         LocalDateTime now = LocalDateTime.now();
@@ -67,8 +77,13 @@ public class ScheduleServiceImpl implements ScheduleService {
     public void deleteSchedule(Long id, String password) {
         Schedule schedule = scheduleRepository.findScheduleById(id);
 
+        if (schedule == null) {
+            throw new ScheduleNotFoundException("삭제할 일정이 존재하지 않습니다.");
+        }
+
+
         if (!schedule.getPassword().equals(password)) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new InvalidPasswordException("비밀번호가 일치하지 않습니다.");
         }
 
         int deleted = scheduleRepository.deleteSchedule(id);
