@@ -7,4 +7,5 @@ https://documenter.getpostman.com/view/38122120/2sB2qcBLGe
 
 ## ERD
 
-![KAKAO_AG_2](https://github.com/user-attachments/assets/10eda8c8-431d-4e67-8b20-afca83a37b0f)
+
+![KAKAO_AG_2 (1)](https://github.com/user-attachments/assets/292eab75-c22f-43db-956d-cf46b705c7b9)
